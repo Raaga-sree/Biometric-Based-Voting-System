@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login - Biometric Voting System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>Biometric Voting System</h1>
+</header>
+
+<main>
+<div class="container">
+
+    <h2>Voter Login</h2>
+
+    <input type="text" id="voter-id" placeholder="Voter ID" required><br><br>
+
+    <input type="password" id="password" placeholder="Password" required><br><br>
+
+    <input type="password" id="pin" placeholder="PIN" required><br><br>
+
+    <h3>Face Verification</h3>
+
+    <video id="login-video" width="320" height="240" autoplay></video><br>
+
+    <button type="button" onclick="startCamera()">Start Camera</button>
+    <button type="button" onclick="captureFace()">Capture Face</button>
+
+    <canvas id="login-canvas" width="320" height="240" style="display:none;"></canvas>
+
+    <input type="hidden" id="face_data">
+
+    <br><br>
+
+    <button type="button" onclick="loginUser()">Login</button>
+
+</div>
+</main>
+
+<script>
+
+let stream;
+const video = document.getElementById("login-video");
+
+function startCamera() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(s => {
+            stream = s;
+            video.srcObject = stream;
+        })
+        .catch(() => alert("Camera access denied"));
+}
+
+function captureFace() {
+    const canvas = document.getElementById("login-canvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    document.getElementById("face_data").value =
+        canvas.toDataURL("image/png");
+    console.log(document.getElementById("face_data").value);
+
+    alert("Face captured!");
+}
+
+function loginUser() {
+
+    fetch("/login_auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            voter_id: document.getElementById("voter-id").value,
+            password: document.getElementById("password").value,
+            pin: document.getElementById("pin").value,
+            face_data: document.getElementById("face_data").value
+        })
+    })
+
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+
+        if (data.success) {
+            window.location.href = "/vote";
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>

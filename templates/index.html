@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biometric Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Biometric Based Secure Voting System</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h2>One voter = One vote</h2>
+            <p>This system uses biometric authentication to ensure secure and transparent elections.</p>
+            <div class="cta-buttons">
+                <a href="/register" class="btn">Register to Vote</a>
+                <a href="/login" class="btn btn-secondary">Login to Vote</a>
+            </div>
+        </section>
+        
+        
+    </main>
+    
+
+    
+    <footer>
+        <p>&copy; 2025 Biometric Voting System. All rights reserved.</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

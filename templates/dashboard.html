@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Biometric Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Biometric Based Secure Voting System</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Welcome, {{ session.username or 'User' }}!</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="dashboard-content">
+                <h3>Active Elections</h3>
+                
+                {% if elections %}
+                    <div class="elections-list">
+                        {% for election in elections %}
+                            <div class="election-card">
+                                <h4>{{ election.name }}</h4>
+                                <p><strong>Start Date:</strong> {{ election.start_date }}</p>
+                                <p><strong>End Date:</strong> {{ election.end_date }}</p>
+                                {% if not election.has_voted %}
+                                <a href="{{ url_for('vote', election_id=election.id) }}" class="btn">Vote Now</a>
+                                {% else %}
+                                <p style="color:green;">You have already voted</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No active elections at the moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Biometric Voting System. All rights reserved.</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

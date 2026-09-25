@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel - Biometric Voting</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<style>
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* HEADER */
+.header {
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* MAIN */
+.container {
+    padding: 40px;
+}
+
+/* TITLE */
+h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* CARD GRID */
+.card-grid {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+/* CARDS */
+.card {
+    flex: 1;
+    min-width: 250px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card h3 {
+    margin-bottom: 20px;
+}
+
+/* BUTTONS */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Button Colors */
+.btn-primary {
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    color: white;
+}
+
+.btn-dark {
+    background: linear-gradient(45deg, #434343, #000000);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    color: white;
+}
+
+/* Button Hover */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* SECTION BOX */
+.section {
+    display: none;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+/* FORM */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+input:focus {
+    outline: none;
+    border-color: #5b86e5;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background: #5b86e5;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f5f7ff;
+}
+
+tr:hover {
+    background: #eaf0ff;
+}
+
+/* SMALL BUTTON FIX */
+.btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .card-grid {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    Biometric Based Secure Voting System – Admin Panel
+</div>
+
+<div class="container">
+
+<h2>Admin Panel</h2>
+
+<!-- ===================== CARDS ===================== -->
+<div class="card-grid">
+
+    <div class="card">
+        <h3>Elections Management</h3>
+        <button class="btn btn-primary" onclick="show('addElection')">Add New Election</button>
+        <button class="btn btn-dark" onclick="show('viewElections')">View Elections</button>
+    </div>
+
+    <div class="card">
+        <h3>Candidates Management</h3>
+        <button class="btn btn-primary" onclick="show('addCandidate')">Add Candidate</button>
+        <button class="btn btn-dark" onclick="show('viewCandidates')">View Candidates</button>
+    </div>
+
+    <div class="card">
+        <h3>Voting Statistics</h3>
+        <button class="btn btn-primary" onclick="show('viewStats')">View Statistics</button>
+        <button class="btn btn-dark" onclick="show('exportStats')">Export Results</button>
+    </div>
+
+</div>
+
+<!-- ===================== ADD ELECTION ===================== -->
+<div id="addElection" class="section">
+<h3>Add Election</h3>
+<form method="POST">
+    <input type="hidden" name="action" value="add_election">
+    <input type="text" name="name" placeholder="Election Name" required>
+    <input type="date" name="start_date" required>
+    <input type="date" name="end_date" required>
+    <button class="btn btn-primary">Add Election</button>
+</form>
+</div>
+
+<!-- ===================== VIEW ELECTIONS ===================== -->
+<div id="viewElections" class="section">
+<h3>View Elections</h3>
+<table>
+<tr>
+    <th>ID</th><th>Name</th><th>Start</th><th>End</th><th>Actions</th>
+</tr>
+{% for e in elections %}
+<tr>
+    <td>{{ e.id }}</td>
+    <td>{{ e.name }}</td>
+    <td>{{ e.start_date }}</td>
+    <td>{{ e.end_date }}</td>
+    <td>
+        <div style="display:flex; gap:10px;">
+        <a href="{{ url_for('edit_election', id=e.id) }}"
+           class="btn btn-warning btn-sm">
+           Edit
+        </a>
+
+        <form action="{{ url_for('delete_election', id=e.id) }}"
+              method="POST">
+            <button type="submit"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Are you sure?')">
+                Delete
+            </button>
+        </form>
+    </div>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- ===================== ADD CANDIDATE ===================== -->
+<div id="addCandidate" class="section">
+<h3>Add Candidate</h3>
+<form method="POST">
+    <input type="hidden" name="action" value="add_candidate">
+    <input type="text" name="candidate_name" placeholder="Candidate Name" required>
+    <input type="text" name="party_name" placeholder="Party Name" required>
+
+    <select name="election_id" required>
+        {% for e in elections %}
+        <option value="{{ e.id }}">{{ e.name }}</option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-primary">Add Candidate</button>
+</form>
+</div>
+
+<!-- ===================== VIEW CANDIDATES ===================== -->
+<div id="viewCandidates" class="section">
+<h3>View Candidates</h3>
+<table>
+<tr>
+    <th>ID</th><th>Name</th><th>party</th><th>Election</th><th>Actions</th>
+</tr>
+{% for c in candidates %}
+<tr>
+    <td>{{c.id}}</td>
+    <td>{{ c.name }}</td>
+    <td>{{ c.party or '-'}}</td>
+    <td>{{ c.election_name}}</td>
+    <td>
+    <div style="display: flex; gap: 10px;">
+    <a href="{{url_for('edit_candidate', id=c.id)}}" class="btn btn-warning">
+        Edit
+    </a><br>
+    <form action="{{url_for('delete_candidate', id=c.id)}}" method="POST" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    </div>
+    </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<!-- ===================== VIEW STATS ===================== -->
+<div id="viewStats" class="section">
+<h3>View Election Statistics</h3>
+        {% for e in elections %}
+        <a href="{{ url_for('view_statistics', election_id=e.id)}}"
+           class="btn btn-primary"
+           style="margin-bottom:10px;">
+           {{ e.name }} - view stats
+        </a>
+        {% endfor %}
+
+    
+</div>
+
+
+<!-- ===================== EXPORT ===================== -->
+<div id="exportStats" class="section">
+<h3>Export Election Results</h3>
+
+        {% for e in elections %}
+           <a href="{{ url_for('export_statistics', election_id=e.id)}}"
+              class="btn btn-dark"
+              style="margin-bottom: 10px;">
+            {{ e.name }} - Download CSV
+            </a>
+        {% endfor %}
+
+    
+
+</div>
+
+
+<script>
+function show(id) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = "none");
+    document.getElementById(id).style.display = "block";
+    document.getElementById(id).scrollIntoView({behavior: "smooth"});
+}
+</script>
+
+</body>
+</html>

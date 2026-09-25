@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Face Capture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        /* Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+/* TITLE */
+h2 {
+    margin-top: 40px;
+    font-weight: 600;
+}
+
+/* VIDEO CONTAINER */
+video {
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* CANVAS */
+canvas {
+    border-radius: 15px;
+    margin: 10px;
+}
+
+/* BUTTON */
+button {
+    display: inline-block;
+    padding: 12px 30px;
+    margin: 10px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(45deg, #36d1dc, #5b86e5);
+    transition: all 0.3s ease;
+}
+
+/* BUTTON HOVER */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* FORM SPACING */
+form {
+    margin-top: 20px;
+}
+
+/* OPTIONAL: scanning glow effect */
+video.scanning {
+    box-shadow: 0 0 20px #00f2fe;
+    animation: scan 1s infinite alternate;
+}
+
+@keyframes scan {
+    from { box-shadow: 0 0 10px #00f2fe; }
+    to { box-shadow: 0 0 25px #00f2fe; }
+}
+    </style>
+</head>
+<body>
+
+<h2>Face Registration</h2>
+
+<video id="video" width="400" height="300" autoplay></video>
+<br>
+
+<canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
+
+<form id="faceForm" method="POST" action="/save_face/{{ voter_id }}">
+    <input type="hidden" name="face_data" id="face_data">
+    <button type="button" onclick="capture()">Capture Face</button>
+    <br><br>
+    <button type="submit">Save face</button>
+</form>
+
+<script>
+
+const video = document.getElementById("video");
+
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    video.srcObject = stream;
+})
+.catch(err => {
+    alert("Camera access denied!");
+});
+
+function capture() {
+
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const dataURL = canvas.toDataURL("image/png");
+
+    // STORE FACE DATA
+    document.getElementById("face_data").value = dataURL;
+
+    // DEBUG
+    console.log("Captured!");
+
+    alert("Face captured successfully!");
+}
+
+// PREVENT EMPTY SUBMISSION
+document.getElementById("faceForm").addEventListener("submit", function(e) {
+
+    const faceData = document.getElementById("face_data").value;
+
+    console.log("Submitting...");
+    console.log(faceData);
+
+    if (!faceData || faceData === "") {
+
+        e.preventDefault();
+
+        alert("Please capture face first!");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+🔐 Biometric Based Voting System – Project Prompt
+📌 Project Title
+
+Biometric Based Secure Voting System Using Face and Fingerprint Recognition
+
+🧠 Project Description
+
+Design and develop a secure biometric-based voting system that ensures authentication, integrity, and transparency in the voting process. The system uses face recognition and fingerprint simulation for voter verification and prevents duplicate or unauthorized voting. The application will be developed as a web-based system using modern frontend and backend technologies with a relational database.
+
+🧰 Technology Stack
+🔹 Frontend
+
+HTML – Structure of web pages
+
+CSS – Styling and responsive design
+
+JavaScript – Client-side validation and interactions
+
+🔹 Backend
+
+Python Flask – Web framework and API handling
+
+OpenCV / face_recognition library – Face detection and verification
+
+Fingerprint recognition (simulated) – Pattern or hash-based fingerprint validation
+
+🔹 Database
+
+MySQL – Storage of users, votes, candidates, and elections
+
+🧩 System Modules
+🔹 Module 1: User Management Module
+📌 Description
+
+Manages voter registration, login, authentication, and PIN security.
+
+🔑 Features
+
+User registration with personal details
+
+Secure login using username/password
+
+PIN generation and validation
+
+User authentication before voting
+
+Session management
+
+🗃️ Data Handled
+
+User ID
+
+Name, age, voter ID
+
+Login credentials (hashed)
+
+PIN number
+
+🔹 Module 2: Biometric Authentication Module
+📌 Description
+
+Performs biometric verification using face recognition and fingerprint simulation.
+
+🔑 Features
+
+Face image capture using webcam (OpenCV)
+
+Face encoding and verification
+
+Fingerprint authentication (simulated using patterns or stored hashes)
+
+Multi-factor authentication (PIN + biometrics)
+
+Authentication validation before voting
+
+🧠 Technologies Used
+
+OpenCV
+
+face_recognition library
+
+🔹 Module 3: Voting Module
+📌 Description
+
+Allows authenticated users to cast votes securely.
+
+🔑 Features
+
+Display active elections
+
+Candidate selection
+
+Vote casting with confirmation
+
+Vote storage in database
+
+Prevention of duplicate voting
+
+🔐 Security Measures
+
+One vote per user per election
+
+Vote lock after successful submission
+
+🔹 Module 4: Admin Module
+📌 Description
+
+Provides administrative control over elections and monitoring.
+
+🔑 Features
+
+Admin login authentication
+
+Add and delete elections
+
+Add and remove candidates
+
+Monitor live voting results
+
+View voter participation statistics
+
+🔹 Module 5: Database Module
+📌 Description
+
+Handles structured storage and retrieval of system data.
+
+🗃️ Tables
+
+Users Table – User registration and authentication data
+
+Votes Table – Vote records
+
+Elections Table – Election details
+
+Candidates Table – Candidate information
+
+🔐 Data Integrity
+
+Foreign key relationships
+
+Unique constraints to prevent duplicate votes
+
+Secure data storage
+
+🎯 System Objectives
+
+Ensure secure and tamper-proof voting
+
+Eliminate duplicate and fake votes
+
+Improve voting efficiency and transparency
+
+Demonstrate real-world biometric authentication
+
+📊 Expected Outcomes
+
+Secure web-based voting platform
+
+Biometric verification for voter authentication
+
+Admin-controlled election management
+
+Accurate and real-time vote results
+
+🏁 Conclusion
+
+The Biometric Based Voting System enhances election security by integrating biometric authentication and secure database management. The system demonstrates a practical application of face recognition, web technologies, and database design for real-world voting scenarios.

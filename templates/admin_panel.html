@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Biometric Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Biometric Based Secure Voting System</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin">Admin</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Admin Dashboard</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="admin-dashboard">
+                <h3>Voting Statistics</h3>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h4>Total Voters</h4>
+                        <p>{{ stats.total_voters }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Votes Cast</h4>
+                        <p>{{ stats.voted_voters }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Turnout Rate</h4>
+                        <p>{{ stats.voting_percentage }}%</p>
+                    </div>
+                </div>
+                
+                <div class="admin-actions">
+                    <h3>Admin Actions</h3>
+                    <div class="admin-sections">
+                        <div class="admin-card">
+                            <h4>Elections Management</h4>
+                            <button class="btn" onclick="showElectionForm()">Create Election</button>
+                            <button class="btn btn-secondary" onclick="listElections()">View Elections</button>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <h4>Candidates Management</h4>
+                            <button class="btn" onclick="showCandidateForm()">Add Candidate</button>
+                            <button class="btn btn-secondary" onclick="listCandidates()">View Candidates</button>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <h4>User Management</h4>
+                            <button class="btn" onclick="listUsers()">View Users</button>
+                            <button class="btn btn-secondary" onclick="listVotes()">View Votes</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="admin-content">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Biometric Voting System. All rights reserved.</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        function showElectionForm() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Create New Election</h3>
+                <form id="election-form" action="/create_election" method="POST">
+                    <div class="form-group">
+                        <label for="election-name">Election Name:</label>
+                        <input type="text" id="election-name" name="election_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start_date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end_date" required>
+                    </div>
+                    
+                    <button type="submit" class="btn">Create Election</button>
+                </form>
+            `;
+        }
+        
+        function listElections() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Active Elections</h3>
+                <p>Functionality to list elections would be implemented here.</p>
+            `;
+        }
+        
+        function showCandidateForm() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Add New Candidate</h3>
+                <form id="candidate-form" action="/add_candidate" method="POST">
+                    <div class="form-group">
+                        <label for="candidate-name">Candidate Name:</label>
+                        <input type="text" id="candidate-name" name="candidate_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="party">Political Party:</label>
+                        <input type="text" id="party" name="party" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="election-id">Election:</label>
+                        <select id="election-id" name="election_id" required>
+                            <option value="">Select Election</option>
+                            <option value="1">Sample Election</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">Add Candidate</button>
+                </form>
+            `;
+        }
+        
+        function listCandidates() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Registered Candidates</h3>
+                <p>Functionality to list candidates would be implemented here.</p>
+            `;
+        }
+        
+        function listUsers() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Registered Users</h3>
+                <p>Functionality to list users would be implemented here.</p>
+            `;
+        }
+        
+        function listVotes() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Vote Records</h3>
+                <p>Functionality to list votes would be implemented here.</p>
+            `;
+        }
+    </script>
+</body>
+</html>

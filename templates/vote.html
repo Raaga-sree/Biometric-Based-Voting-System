@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote - Biometric Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+</head>
+<body>
+    <header>
+        <h1>Biometric Based Secure Voting System</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Cast Your Vote</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="voting-content">
+                <h3>{{ active_election_name }}</h3>
+                <h3>Select a Candidate</h3>
+                
+                {% if candidates %}
+                    <form id="vote-form" action="{{ url_for('cast_vote') }}" method="POST">
+                        <input type="hidden" name="election_id" value="{{ election_id }}">
+                        
+                        <div class="candidates-list">
+                            {% for candidate in candidates %}
+                                <div class="candidate-option">
+                                    <label>
+                                    <input type="radio" id="candidate_{{ candidate.id }}" name="candidate_id" value="{{ candidate.id }}" required>
+                                    
+                                        <strong>{{ candidate.name }}</strong> - {{ candidate.party }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="biometric-verification" style="display:none;">
+    <div id="auth-status">Verified</div>
+</div>
+
+<script>
+    // Automatically unlock the vote button as soon as the page loads
+    window.onload = function() {
+        const voteButton = document.getElementById('vote-button');
+        if (voteButton) {
+            voteButton.disabled = false;
+            voteButton.style.opacity = "1";
+            voteButton.style.cursor = "pointer";
+        }
+    };
+</script>
+                        
+                        <button type="submit" class="btn" id="vote-button" disabled>Submit Vote</button>
+                    </form>
+                {% else %}
+                    <p>No candidates available for this election.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Biometric Voting System. All rights reserved.</p>
+    </footer>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Enable vote button when biometric auth is successful
+        function enableVoteButton() {
+            const voteButton = document.getElementById('vote-button');
+            if (voteButton) {
+                voteButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

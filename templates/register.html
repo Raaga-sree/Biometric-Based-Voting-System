@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Biometric Voting System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>Biometric Voting System</h1>
+</header>
+
+<main>
+
+<div class="container">
+
+    <h2>Voter Registration</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+
+                {% if category == "error" %}
+                    <div style="margin:20px auto; width:60%; padding:15px; border-radius:8px; background:#ffdddd; color:black; font-weight:bold;">
+                        {{ message }}
+                    </div>
+                {% else %}
+                    <div style="margin:20px auto; width:60%; padding:15px; border-radius:8px; background:#ddffdd; color:black; font-weight:bold;">
+                        {{ message }}
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form id="register-form">
+
+        <input type="text" id="name" name="name" placeholder="Full Name" required><br><br>
+
+        <input type="number" id="age" name="age" placeholder="Age" min="18" required><br><br>
+
+        <input type="password" id="password" name="password" placeholder="Password" required><br><br>
+
+        <input type="password" id="pin" name="pin" placeholder="PIN" required><br><br>
+
+        <button type="button" onclick="registerUser()">Register</button>
+
+    </form>
+
+</div>
+
+</main>
+
+<script>
+
+function registerUser() {
+
+    fetch("/register", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            name: document.getElementById("name").value,
+            age: document.getElementById("age").value,
+            password: document.getElementById("password").value,
+            pin: document.getElementById("pin").value
+
+        })
+
+    })
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+        if (data.success) {
+
+            window.location.href = "/registration_success/" + data.voter_id;
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
