@@ -1,6 +1,6 @@
 Flask==2.3.3
 opencv-python==4.8.1.78
-mysql-connector-python==8.1.0
+mysql-connector-python==9.7.0
 numpy==1.26.4
 deepface==0.0.100
 gunicorn==26.0.0
